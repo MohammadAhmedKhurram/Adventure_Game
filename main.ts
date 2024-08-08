@@ -31,7 +31,7 @@ function getRandomNumber(max: number): number {
 async function gameLoop() {
     let enemyHealth = getRandomEnemyHealth();
     let enemy = getRandomEnemy();
-    console.log(`${enemy} has appeared!`);
+    console.log(`You encounter a ${enemy} lurking in the maze!`);
 
     while (running && health > 0) {
         console.log(`\nYour HP: ${health}`);
@@ -72,9 +72,10 @@ async function gameLoop() {
                     console.log(`> You now have ${numHealthPotions} health potion(s).`);
                 }
 
+                console.log("You cautiously navigate through the maze...");
                 enemyHealth = getRandomEnemyHealth();
                 enemy = getRandomEnemy();
-                console.log(`\n# A ${enemy} has appeared! #`);
+                console.log(`\n# You turn a corner and face a ${enemy}! #`);
             }
 
         } else if (action.do === "Drink health potion") {
@@ -89,7 +90,7 @@ async function gameLoop() {
             }
 
         } else if (action.do === "Run!") {
-            console.log(`\nYou run away from the ${enemy}!`);
+            console.log(`\nYou flee deeper into the maze, leaving the ${enemy} behind!`);
             enemyHealth = getRandomEnemyHealth();
             enemy = getRandomEnemy();
             console.log(`\n# A ${enemy} has appeared! #`);
@@ -97,7 +98,7 @@ async function gameLoop() {
     }
 
     if (health < 1) {
-        console.log("\nYou limp out of the dungeon, weak from battle.");
+        console.log("\nYou stumble out of the Monster Maze, weak from battle.");
     }
 }
 
