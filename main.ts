@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 
 import inquirer from 'inquirer';
 
@@ -16,11 +16,23 @@ let running: boolean = true;
 
 console.log("Welcome to the Monster Maze!");
 
-let enemyHealth = Math.floor(Math.random() * maxEnemyHealth + 1);
-let enemy = enemies[Math.floor(Math.random() * enemies.length)];
-console.log(`${enemy} has appeared!`);
+function getRandomEnemy(): string {
+    return enemies[Math.floor(Math.random() * enemies.length)];
+}
+
+function getRandomEnemyHealth(): number {
+    return Math.floor(Math.random() * maxEnemyHealth + 1);
+}
+
+function getRandomNumber(max: number): number {
+    return Math.floor(Math.random() * max);
+}
 
 async function gameLoop() {
+    let enemyHealth = getRandomEnemyHealth();
+    let enemy = getRandomEnemy();
+    console.log(`${enemy} has appeared!`);
+
     while (running && health > 0) {
         console.log(`\nYour HP: ${health}`);
         console.log(`${enemy}'s HP: ${enemyHealth}`);
@@ -35,8 +47,8 @@ async function gameLoop() {
         ]);
 
         if (action.do === "Attack") {
-            let damageDealt = Math.floor(Math.random() * attackDamage);
-            let damageTaken = Math.floor(Math.random() * enemyAttackDamage);
+            let damageDealt = getRandomNumber(attackDamage);
+            let damageTaken = getRandomNumber(enemyAttackDamage);
 
             enemyHealth -= damageDealt;
             health -= damageTaken;
@@ -53,15 +65,15 @@ async function gameLoop() {
                 console.log(`\n> ${enemy} was defeated!`);
                 console.log(`> You have ${health} HP left.`);
 
-                let dropChance = Math.floor(Math.random() * 100);
+                let dropChance = getRandomNumber(100);
                 if (dropChance < healthPotionDropChance) {
                     numHealthPotions++;
                     console.log(`> The ${enemy} dropped a health potion!`);
                     console.log(`> You now have ${numHealthPotions} health potion(s).`);
                 }
 
-                enemyHealth = Math.floor(Math.random() * maxEnemyHealth + 1);
-                enemy = enemies[Math.floor(Math.random() * enemies.length)];
+                enemyHealth = getRandomEnemyHealth();
+                enemy = getRandomEnemy();
                 console.log(`\n# A ${enemy} has appeared! #`);
             }
 
@@ -78,8 +90,8 @@ async function gameLoop() {
 
         } else if (action.do === "Run!") {
             console.log(`\nYou run away from the ${enemy}!`);
-            enemyHealth = Math.floor(Math.random() * maxEnemyHealth + 1);
-            enemy = enemies[Math.floor(Math.random() * enemies.length)];
+            enemyHealth = getRandomEnemyHealth();
+            enemy = getRandomEnemy();
             console.log(`\n# A ${enemy} has appeared! #`);
         }
     }
